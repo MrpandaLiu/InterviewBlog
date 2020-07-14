@@ -112,7 +112,7 @@ class MVVM {
         this.depList = {}
         // 用this.xxx 代理 this.$data.xxx
         Object.keys(this.$data).forEach((key) => {
-            this.proxyData(key);
+            this.DataProxy(key);
         })
         this._Observer(this.$data);
         this._compile(this.$el);
@@ -122,7 +122,7 @@ class MVVM {
 构造函数就是这样，按顺序执行几个步骤，监听的watcherTask作用会在后面提到。我们先实现第一步，数据代理
 
 ``` javascript
-proxyData(key) {
+DataProxy(key) {
     // 因为Object.defineProperty参数中的对象会影响作用域，导致this
     // 指向达到不我们的期望，所以提前定义that指向我们的MVVM实例
     const that = this;
