@@ -38,6 +38,8 @@ app.listen(3000, () => {
 
 我们将项目创建在myexpress文件夹下
 
+主要思想就是**每一个请求和每一个中间件都是layer，用一个数组来存，在监听后按照顺序来执行or匹配**
+
 ``` js
 // index.js
 const http = require('http');
