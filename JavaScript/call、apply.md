@@ -96,3 +96,25 @@ const a = {}
 console.log(fn.apply2(a, [3, 4]));  // 7
 ```
 
+
+# 模拟实现new
+
+在使用new运算符调用构造函数时的执行过程：
+
+1. 创建一个对象
+
+2. 将构造函数中的this指向该对象
+
+3. 指向构造函数代码（给新对象添加属性和方法）
+
+4. 返回新对象
+
+``` js
+function myNew() {
+  const obj = new Object();
+  const Constructor = [].shift.apply(arguments);
+  obj.__proto__ = Constructor.prototype;
+  const ret = Constructor.apply(obj, arguments);
+  return typeof ret==="object" ? ret : obj;
+}
+```

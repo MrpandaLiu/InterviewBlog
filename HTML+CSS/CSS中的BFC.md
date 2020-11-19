@@ -1,9 +1,3 @@
-<!--
- * @LastEditors: panda_liu
- * @LastEditTime: 2020-08-28 15:44:15
- * @FilePath: \yunniubaoc:\Users\23163\Desktop\web\Blog\blog\CSS中的BFC.md
- * @Description: add some description
--->
 # 1 常见定位方案
 
 - 普通流（normal flow）
@@ -71,7 +65,7 @@ BFC即Block Formatting Contexts。
 </body>
 ```
 
-![BFC1](./image/BFC1.png)
+![BFC1](../image/BFC1.png)
 
 两个div元素都处于同一个BFC容器下（body元素），所以第一个div的下边距和第二个div的上边距发生了重叠，所以两个盒子之间距离只有100px，而不是200px。
 
@@ -141,7 +135,7 @@ BFC即Block Formatting Contexts。
 </body>
 ```
 
-![BFC2](./image/BFC2.png)
+![BFC2](../image/BFC2.png)
 
 由于容器内元素浮动，脱离了文档流，所以容器只剩下2px的border高度，如果想让容器包裹着浮动元素，可以触发容器的BFC
 
@@ -182,7 +176,7 @@ BFC即Block Formatting Contexts。
 </body>
 ```
 
-![BFC3](./image/BFC3.png)
+![BFC3](../image/BFC3.png)
 
 第二个元素有部分被浮动元素所覆盖（文本信息不会被浮动元素覆盖），如果想避免元素被覆盖，可触发第二个元素的BFC特性，在第二个元素中加入`overflow: hidden`，就会变成两列布局
 
