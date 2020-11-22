@@ -1,6 +1,6 @@
 <!--
  * @LastEditors: panda_liu
- * @LastEditTime: 2020-11-21 22:51:54
+ * @LastEditTime: 2020-11-21 23:33:54
  * @FilePath: \undefinedc:\Users\23163\Desktop\web\Blog\算法\剑指offer-1.md
  * @Description: add some description
 -->
@@ -17,6 +17,7 @@
 > 输出：2 或 3 
 
 ``` js
+// hash法
 var findRepeatNumber = function(nums) {
     // 使用hash记录每个值的出现次数
     const hash = [];
@@ -109,4 +110,46 @@ var buildTree = function(preorder, inorder) {
 };
 ```
 
+# 09 用两个栈实现队列
 
+太简单了，不放了
+
+# 10-1 斐波那契数列（10-2 青蛙跳台阶同理）
+
+写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项。斐波那契数列的定义如下：
+
+> F(0) = 0,   F(1) = 1  
+> F(N) = F(N - 1) + F(N - 2), 其中 N > 1.  
+斐波那契数列由 0 和 1 开始，之后的斐波那契数就是由之前的两数相加而得出。
+
+答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
+
+
+示例 1：
+
+> 输入：n = 2  
+> 输出：1  
+
+示例 2：  
+
+> 输入：n = 5  
+> 输出：5  
+
+``` js
+var fib = function(n) {
+    // 边界判断
+    if(n <= 1) return n;
+    let pre = 0;
+    let aft = 1;
+    let sum;
+    for(let i=2;i<=n;i++) {
+        // 斐波那契数列中当前数 等于前两个数之和
+        sum = pre + aft;
+        if(sum >= 1000000007) sum = sum % 1000000007;
+        // 更新两个指针指向新的值
+        pre = aft;
+        aft = sum;
+    }
+    return sum;
+};
+```
