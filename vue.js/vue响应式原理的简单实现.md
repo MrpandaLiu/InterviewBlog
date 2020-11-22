@@ -341,6 +341,107 @@ compileText(node, type) {
 }
 ```
 
+# 3 vue中数组的响应式
+
+## 3.1 修改数组属性
+
+在vue文档中是这么说的
+
+> vue不能检测以下变动的数组：  
+> 当你利用索引直接设置一个项时，例如：vm.items.key = newValue  
+> 当你修改数组长度时，例如：vm.items.length = newLength
+
+``` js
+// 利用vue提供的set方法
+Vue.set(example1.items, key, newValue);
+
+// 利用数组的splice方法替换
+example1.items.splice(key, 1, newValue);
+```
+
+## 3.2 变异方法
+
+vue中可以检测到数组push、pop等方法，因为对JavaScript中数组改变自身的七种方法进行变异，所以它们也将会触发视图更新。
+
+``` js
+//array.js
+import { def } from '../util/index'
+
+const arrayProto = Array.prototype
+export const arrayMethods = Object.create(arrayProto)
+//arrayMethods是对数组的原型对象的拷贝，
+//在之后会将该对象里的特定方法进行变异后替换正常的数组原型对象
+/**
+ * Intercept mutating methods and emit events
+ */
+[
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+]
+.forEach(function (method) {
+  // cache original method
+  //将上面的方法保存到original中
+  const original = arrayProto[method]
+  def(arrayMethods, method, function mutator (...args) {
+    const result = original.apply(this, args)
+    const ob = this.__ob__
+    let inserted
+    // 把数组新增的元素转换为可监测的
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args
+        break
+      case 'splice':
+        inserted = args.slice(2)
+        break
+    }
+    if (inserted) ob.observeArray(inserted)
+    // notify change
+    // 通知依赖更新
+    ob.dep.notify()
+    return result
+  })
+})
+```
+
+``` js
+// def.js部分代码
+/**
+ * Define a property.
+ */
+// 代理新的方法
+export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
+  Object.defineProperty(obj, key, {
+    value: val,
+    enumerable: !!enumerable,
+    writable: true,
+    configurable: true
+  })
+}
+```
+
+我们可以简单的来模拟实现这一过程：
+
+``` js
+// 模拟代理push方法
+const push = Array.prototype.push;
+
+Array.prototype.push = function mutator(...args) {
+    // 利用原push方法得到结果
+    const result = push.apply(this, arg);
+    // 给push进数组的项添加响应式
+    ArrayObserver(arg);
+    // 通知依赖该数组的watcher批量更新
+    Notify();
+}
+```
+
 # 总结
 
 1. 我们实现的这个双向绑定MVVM框架功能还很简陋，不能实现对象动态添加属性和数组添减项的变化侦测,等vue3.0出来我们可以学习一波proxy如何做这件事

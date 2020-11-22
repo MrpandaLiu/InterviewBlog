@@ -1,6 +1,6 @@
 <!--
  * @LastEditors: panda_liu
- * @LastEditTime: 2020-11-21 23:33:54
+ * @LastEditTime: 2020-11-22 15:49:11
  * @FilePath: \undefinedc:\Users\23163\Desktop\web\Blog\算法\剑指offer-1.md
  * @Description: add some description
 -->
@@ -151,5 +151,35 @@ var fib = function(n) {
         aft = sum;
     }
     return sum;
+};
+```
+
+# 11 旋转数组的最小数字
+
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。  
+
+示例 1：
+
+> 输入：[3,4,5,1,2]  
+> 输出：1  
+
+示例 2：
+
+> 输入：[2,2,2,0,1]  
+> 输出：0  
+
+``` js
+var minArray = function(numbers) {
+    // 边界条件直接返回
+    if(numbers.length === 1) return numbers[0];
+    let cur = 0;
+    for(let i=0; i<numbers.length; i++) {
+        // 如果递增，则前进指针
+        if(numbers[cur] <= numbers[i]) cur = i;
+        // 如果小于 且 没遍历到结尾 返回当前值
+        else if(i<numbers.length) return numbers[i];
+    }
+    // 如果全程单调递减， 返回第一个值
+    return numbers[0];
 };
 ```
