@@ -1,7 +1,7 @@
 <!--
  * @LastEditors: panda_liu
- * @LastEditTime: 2020-11-22 15:49:11
- * @FilePath: \undefinedc:\Users\23163\Desktop\web\Blog\算法\剑指offer-1.md
+ * @LastEditTime: 2020-11-23 11:08:38
+ * @FilePath: \Blog\算法\剑指offer-1.md
  * @Description: add some description
 -->
 # 03 数组中重复的数字
@@ -181,5 +181,95 @@ var minArray = function(numbers) {
     }
     // 如果全程单调递减， 返回第一个值
     return numbers[0];
+};
+```
+
+# 12 矩阵中的路径
+
+请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一格开始，每一步可以在矩阵中向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。例如，在下面的3×4的矩阵中包含一条字符串“bfce”的路径（路径中的字母用加粗标出）。
+
+``` js
+[["a","b","c","e"],
+["s","f","c","s"],
+["a","d","e","e"]]
+```
+
+但矩阵中不包含字符串“abfb”的路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入这个格子。
+
+示例 1：
+
+> 输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"  
+> 输出：true  
+
+``` js
+var exist = function(board, word) {
+    // 数组长度宽度
+    const row = board.length;
+    const col = board[0].length;
+    const dfs = (i, j, idx) => {
+        // 如果越界or不等于word对应字母 返回false
+        if(i<0 || i>= row || j<0 || j>col || board[i][j] !== word[idx]) return false;
+        // 如果到最后一个字母 直接返回true 
+        if(idx === word.length-1) return true;
+        // 将当前字母值存在tmp中， 锁住board[i][j]
+        const tmp = board[i][j];
+        board[i][j] = '/';
+        // 四周有一个true即可
+        const res = dfs(i-1,j,idx+1) || dfs(i,j-1,idx+1) || dfs(i,j+1,idx+1) || dfs(i+1,j,idx+1);
+        // 恢复现场
+        board[i][j] = tmp;
+        // 返回结果
+        return res;
+    }
+
+    // 遍历找到和word第一个字母相同的项
+    for(let i=0; i<row; i++) {
+        for(let j=0; j<col; j++) {
+            if(dfs(i,j,0)) return true;
+        }
+    }
+    return false;
+};
+```
+
+# 13 机器人的运动范围
+地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
+
+示例 1：
+
+> 输入：m = 2, n = 3, k = 1  
+> 输出：3  
+
+``` js
+var movingCount = function(m, n, k) {
+    // 设置是否访问过
+    const visted = {};
+    // 记录可以到达的格子个数
+    let res = 0;
+    // 通过reduce迭代相加看是否在k之内
+    const canMov = (i, j, k) => {
+        const val1 = i.toString().split("").reduce((total, cur)=>{ return total+= Number(cur)}, 0);
+        const val2 = j.toString().split("").reduce((total, cur)=>{ return total+= Number(cur)}, 0);
+        if(val1 + val2 <= k) return true;
+        else return false;
+    }
+    const dfs = (i, j) => {
+        // 越界直接return
+        if(i<0 || j<0 || i>=m || j>=n) return;
+        // 如果没有访问过 & 可以访问
+        if(!visted[`${i}|${j}`] && canMov(i,j,k)) {
+            // 设置已访问标记
+            visted[`${i}|${j}`] = true;
+            // 计数+1
+            res++;
+            // 深度遍历其他格子
+            dfs(i-1, j);
+            dfs(i+1, j);
+            dfs(i, j-1);
+            dfs(i, j+1);
+        }
+    }
+    dfs(0,0);
+    return res;
 };
 ```
