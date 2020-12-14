@@ -5,6 +5,14 @@ tags: [eventloop]
 categories: [前端]
 ---
 
+> JavaScript是单线程语言
+
+**为什么JS是单线程的**？
+
+JavaScript最初被设计用在浏览器中。如果有这么一个场景：现在一个线程在某个DOM节点上添加内容，另一个线程删除了这个节点，这时浏览器应该以哪个线程为准？
+
+> 为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。
+
 # 1 EventLoop概念
 
 JavaScript是一门**单线程**语言，和Java或go不同，在同一时间里，只允许执行一个任务，后续的代码即处于堵塞的状态。

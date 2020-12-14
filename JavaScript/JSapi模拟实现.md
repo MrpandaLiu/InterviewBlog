@@ -54,7 +54,7 @@ const fn = () => {
 fn.bind2(a)();
 ```
 
-# 2 模拟实现call
+# 2 模拟实现call和apply
 
 ``` js
 Function.prototype.call2 = function(context, ...args) {
@@ -97,7 +97,7 @@ console.log(fn.apply2(a, [3, 4]));  // 7
 ```
 
 
-# 模拟实现new
+# 3 模拟实现new
 
 在使用new运算符调用构造函数时的执行过程：
 
@@ -118,3 +118,57 @@ function myNew() {
   return typeof ret==="object" ? ret : obj;
 }
 ```
+
+
+
+# 4 模拟实现instanceof
+
+``` javascript
+function _instanceof(A, B) {
+    var o = B.prototype;	// 取B的显示原型
+    A = A.__proto__;	// 取A的隐式原型
+    while(true) {
+        if(A === null) return false;	// Object.prototype.__proto__ === null
+        if(o === A) return true;
+        A = A.__proto__;
+    }
+}
+```
+
+
+
+# 5 实现发布订阅模式EventEmitter
+
+``` javascript
+class EventEmitter {
+    constructor() {
+        // 事件对象
+        this.events = {};
+    }
+    // 订阅事件的方法
+    on(name, callback) {
+        if(!this.events[name]) this.events[name] = [callback];
+        else this.events[name].push(callback);
+    }
+    // 触发事件的方法
+    emit(name, ...args) {
+        this.events[name] &&
+        	this.events[name].forEach((cb) => cb.apply(this, args));
+    }
+    // 移除订阅事件
+    off(name, callback) {
+        if(this.events[name]) {
+            this.events[name] = this.events[name].filter((cb) => cb!=callback);
+        }
+    }
+    // 只执行一次订阅事件，然后移除
+    once(name, callback) {
+        const fn = () => {
+            callback();
+            this.off(name, fn);
+        }
+        this.on(name, fn);
+    }
+}
+```
+
