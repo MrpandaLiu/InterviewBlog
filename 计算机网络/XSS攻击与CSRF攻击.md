@@ -1,9 +1,3 @@
-<!--
- * @LastEditors: panda_liu
- * @LastEditTime: 2020-11-15 17:13:39
- * @FilePath: \undefinedc:\Users\23163\Desktop\web\Blog\计算机网络\XSS攻击与CSRF攻击.md
- * @Description: add some description
--->
 # 1 XSS攻击
 
 ## 1.1 什么是XSS

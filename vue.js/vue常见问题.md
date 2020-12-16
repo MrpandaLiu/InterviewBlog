@@ -68,3 +68,27 @@ vue将diff的时间复杂度从`O(n^3)`优化为`O(n)`，只有当新旧Children
 新旧 children 中的节点只有顺序是不同的时候，最佳的操作应该是通过移动元素的位置来达到更新的目的。
 
 需要在新旧 children 的节点中保存映射关系，以便能够在旧 children 的节点中找到可复用的节点。key也就是children中节点的唯一标识。
+
+
+
+# 3 Vue中组件生命周期调用顺序
+
+组件的调用顺序都是`先父后子`,渲染完成的顺序是`先子后父`。
+
+组件的销毁操作是`先父后子`，销毁完成的顺序是`先子后父`。
+
+### 3.1 加载渲染过程
+
+父beforeCreate -> 父created -> 父beforeMount -> 子beforeCreate -> 子created -> 子beforeMount - > 子mounted -> 父mounted
+
+### 3.2 子组件更新过程
+
+父beforeUpdate -> 子beforeUpdate -> 子updated -> 父updated
+
+### 3.3 父组件更新过程
+
+父 beforeUpdate -> 父 updated
+
+### 3.4 销毁过程
+
+父beforeDestroy -> 子beforeDestroy -> 子destroyed -> 父destroyed

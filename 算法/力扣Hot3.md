@@ -70,7 +70,7 @@ var search = function (nums, target) {
 进阶：
 
 你可以设计并实现时间复杂度为 O(log n) 的算法解决此问题吗？
- 
+
 **示例**：
 ```
 输入：nums = [5,7,7,8,8,10], target = 8
@@ -327,6 +327,8 @@ var groupAnagrams = function(strs) {
     return result;
 };
 ```
+
+
 
 # 53 最大子序和
 
