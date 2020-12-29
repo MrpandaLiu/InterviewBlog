@@ -39,9 +39,12 @@ getName.call(obj2); // cat
 **2)实现bind**
 
 ``` js
-Function.prototype.bind2 = function(context, ...args)  {
-  return () => {
-    return this.apply(context, ...args);
+Functiopn.prototype.bind2 = function(context, ...args) {
+  const that = this;
+  return function F() {
+    // 如果是使用new关键字
+    if(this instanceof F) that.apply(this, args);
+    else that.apply(context, args);
   }
 }
 
@@ -63,7 +66,7 @@ Function.prototype.call2 = function(context, ...args) {
   // 将目标方法添加到context对象中
   context.fn = this;
   // 执行方法
-  const result = eval(`context.fn(${args})`);
+  const result = context.fn(args);
   // 删除上下文中的方法
   delete context.fn;
   // 返回结果
@@ -83,7 +86,7 @@ Function.prototype.apply2 = function(context, arr) {
   context.fn = this;
   let result;
   if(!arr)  result = context.fn();
-  else result = eval(`context.fn(${arr})`);
+  const result = context.fn(...arr);
   delete context.fn;
   return result;
 }
@@ -101,13 +104,10 @@ console.log(fn.apply2(a, [3, 4]));  // 7
 
 在使用new运算符调用构造函数时的执行过程：
 
-1. 创建一个对象
-
-2. 将构造函数中的this指向该对象
-
-3. 指向构造函数代码（给新对象添加属性和方法）
-
-4. 返回新对象
+1. 创建一个空对象 obj;
+2. 将新创建的空对象的隐式原型指向其构造函数的显示原型。
+3. 使用 call 改变 this 的指向
+4. 如果无返回值或者返回一个非对象值，则将 obj 返回作为新对象；如果返回值是一个新对象的话那么直接直接返回该对象
 
 ``` js
 function myNew() {

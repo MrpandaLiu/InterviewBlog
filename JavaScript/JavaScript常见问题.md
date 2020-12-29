@@ -54,7 +54,7 @@ console.log((5).add(5).minus(1))	// 9
 
 1. **typeof操作符**
 
-2. **0instanceof运算符**
+2. **instanceof运算符**
 
 3. **Object.prototype.toString** 
 

@@ -131,7 +131,6 @@ Corss-Site-Scripting（跨站脚本攻击）简称 XSS，是一种**代码注入
 ## 2.6 防御
 
 - 验证码
-
 - Referer check
-
 - token
+- Cookie的`SameSite`属性用来限制第三方 Cookie，从而减少安全风险。

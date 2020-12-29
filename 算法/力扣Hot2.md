@@ -1,33 +1,3 @@
-<!--
- * @LastEditors: panda_liu
- * @LastEditTime: 2020-12-08 10:22:00
- * @FilePath: \yunniubaoc:\Users\23163\Desktop\web\Blog\算法\力扣Hot11-20.md
- * @Description: add some description
--->
-# 11 盛最多水的容器
-
-给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
-
-说明：你不能倾斜容器。
-
-**题解**
-``` js
-var maxArea = function(height) {
-    // 双指针 从两端向中间
-    let res = 0,i=0,j=height.length-1,h;
-    while(i<j) {
-        // 找到两边较矮的作为高度
-        h = height[i] > height[j] ? height[j] : height[i];
-        // 判断最大是否更新
-        res = res < h * (j - i) ? h * (j - i) : res;
-        // 小的边一端移动指针
-        if(height[j] >= height[i]) i++;
-        else j--;
-    }
-    return res;
-};
-```
-
 # 15 三数之和
 
 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
@@ -46,6 +16,7 @@ var maxArea = function(height) {
 ```
 
 **题解**
+
 ``` js
 var threeSum = function(nums) {
     // 先排序
@@ -151,6 +122,31 @@ var removeNthFromEnd = function(head, n) {
     return h;
 };
 ```
+
+
+
+``` javascript
+var removeNthFromEnd = function(head, n) {
+    // 双指针法
+    let node = head,count = 0;
+    while(node) {
+        node = node.next;
+        count++;
+    }
+    count = count - n - 1;
+    if(count == -1) return head.next;
+    node = head;
+    while(count>0) {
+        node = node.next;
+        count--;
+    } 
+    node.next = node.next.next;
+    return head;
+};
+
+```
+
+
 
 # 20 有效的括号
 

@@ -1,9 +1,3 @@
-<!--
- * @LastEditors: panda_liu
- * @LastEditTime: 2020-11-22 15:12:36
- * @FilePath: \undefinedc:\Users\23163\Desktop\web\Blog\README.md
- * @Description: add some description
---> 
 > 记录我总结前端知识的博客仓库
 
 # HTML+CSS

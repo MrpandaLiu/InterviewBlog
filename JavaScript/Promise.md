@@ -36,11 +36,11 @@ Promise._all = function(promises) {
         if(promiseCount === promises.length) {
           resolve(result);
         }
+      }, (err) => {
+          reject(err);
       })
     }
-  }, (err) => {
-    reject(err);
-  })
+  }
 }
 
 let promiseAll = Promise._all([promise1, promise2, promise3]);
@@ -89,12 +89,14 @@ Promise._race = function(promises) {
 }
 ```
 
-# 实现Promise.race
+# 实现Promise.finally
 
 ``` js
 Promise.finally = function(callback) {
-  return this.then(res => return Promise.resolve(callback()).then(() => res),
-  reason => return Promise.resolve(callback()).then(() => throw reason))
+  return this.then(
+  	value => this.resolve(callback()).then(() => value),
+    reason => this.resolve(callback()).then(() => throw reason)
+  )
 }
 ```
 
